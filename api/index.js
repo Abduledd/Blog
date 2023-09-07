@@ -10,6 +10,7 @@ const PORT = 3000; // Définition du port que vous souhaitez utiliser
 async function startServer() {
     try {
         await mongoose.connect('mongodb+srv://blog:1GkeKSRMCzcQ1o5C@cluster0.utbkidw.mongodb.net/?retryWrites=true&w=majority');
+        console.log('server connected')
         app.listen(PORT, () => {
             console.log(`Server running on port: ${PORT}`);
         });
@@ -26,6 +27,7 @@ app.post('/register', async (req, res) => {
         const userDoc = await User.create({ username, password });
         res.json(userDoc);
     } catch (e) {
+        console.log('erreur')
         res.status(400).json(e);
     }
 });
