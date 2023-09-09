@@ -6,6 +6,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
+  // const [hidden, setHidden] = useState(false);
   const navigate = useNavigate();
   const { setUserInfo } = useContext(UserContext);
   async function login(ev) {
@@ -23,7 +24,12 @@ export default function LoginPage() {
         console.log(userInfo);
         setUserInfo(userInfo);
         setRedirect(true);
-      } else {
+
+        // } else if (response.status != 200) {
+        //   setHidden(true);
+
+      }
+      else {
         const errorMessage = await response.text();
         alert(errorMessage || 'Wrong credentials');
       }
@@ -48,6 +54,8 @@ export default function LoginPage() {
         value={password}
         onChange={ev => setPassword(ev.target.value)} />
       <button>Login</button>
-    </form>
+      {/* <p style={{ color: 'red' }} hidden={!hidden}>Utilisateur non trouvé, veuillez vous inscrire</p> */}
+    </form >
+
   );
 }

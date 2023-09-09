@@ -5,6 +5,10 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const uploadMiddleWare = multer({ dest: 'uploads/' });
+const fs = require('fs');
+const Post = require('./models/Post');
 
 const app = express();
 
@@ -57,19 +61,26 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const userDoc = await User.findOne({ username });
+
+    if (!userDoc) {
+        // Utilisateur non trouvé, renvoyer un message d'erreur
+        return res.status(400).json('Utilisateur non trouvé, veuillez vous inscrire.');
+    }
+
     const checkPassword = bcrypt.compareSync(password, userDoc.password);
-    // res.json(checkPassword);
+
     if (checkPassword) {
-        //logged in
+        // Mot de passe correct, générer un token JWT et le renvoyer
         jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
             if (err) throw err;
             res.cookie('token', token).json({
                 id: userDoc._id,
                 username,
             });
-        })
+        });
     } else {
-        res.status(400).json('wrong credentials');
+        // Mot de passe incorrect, renvoyer un message d'erreur
+        res.status(400).json('Mot de passe incorrect.');
     }
 });
 
@@ -86,4 +97,24 @@ app.get('/profile', (req, res) => {
 
 app.post('/logout', async (req, res) => {
     res.cookie('token', '').json('ok');
-})
+});
+
+
+app.post('/post', uploadMiddleWare.single('file'), async (req, res) => {
+    const { originalname, path } = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext;
+    // res.json({ ext });
+    fs.renameSync(path, newPath);
+    const { title, summary, content } = req.body;
+    const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: newPath,
+        author: info.id,
+    });
+    res.json(postDoc);
+    res.json({ files: req.file });
+});

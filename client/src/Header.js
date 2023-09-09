@@ -15,10 +15,10 @@ export default function Header() {
   }, []);
 
   function logout() {
-    // fetch('http://localhost:3000/logout', {
-    //   credentials: 'include',
-    //   method: 'POST',
-    // });
+    fetch('http://localhost:3000/logout', {
+      credentials: 'include',
+      method: 'POST',
+    });
     setUserInfo(null);
   }
 
@@ -43,13 +43,14 @@ export default function Header() {
       </nav> */}
       <nav>
         {
-          userInfo.username == null ? <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </> : <>
-            <Link to="/create">Create new post</Link>
-            <a onClick={logout}>Logout ({username})</a>
-          </>
+          (userInfo && userInfo.username) == null
+            ? (<>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>) : (<>
+              <Link to="/create">Create new post</Link>
+              <a onClick={logout}>Logout ({username})</a>
+            </>)
         }
       </nav>
     </header>
