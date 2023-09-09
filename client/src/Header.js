@@ -27,7 +27,7 @@ export default function Header() {
   return (
     <header>
       <Link to="/" className="logo">MyBlog</Link>
-      <nav>
+      {/* <nav>
         {username && (
           <>
             <Link to="/create">Create new post</Link>
@@ -40,6 +40,17 @@ export default function Header() {
             <Link to="/register">Register</Link>
           </>
         )}
+      </nav> */}
+      <nav>
+        {
+          userInfo.username == null ? <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </> : <>
+            <Link to="/create">Create new post</Link>
+            <a onClick={logout}>Logout ({username})</a>
+          </>
+        }
       </nav>
     </header>
   );
