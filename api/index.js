@@ -5,7 +5,7 @@ const User = require('./models/User');
 
 app.use(express.json());
 
-const PORT = 3000; // Définition du port que vous souhaitez utiliser
+const PORT = 3000;
 
 async function startServer() {
     try {
