@@ -108,13 +108,27 @@ app.post('/post', uploadMiddleWare.single('file'), async (req, res) => {
     // res.json({ ext });
     fs.renameSync(path, newPath);
     const { title, summary, content } = req.body;
-    const postDoc = await Post.create({
-        title,
-        summary,
-        content,
-        cover: newPath,
-        author: info.id,
+
+    // Extraire les informations de l'utilisateur à partir du token JWT
+    const token = req.cookies.token;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+            // Gérer les erreurs de vérification du token ici
+            return res.status(401).json('Accès non autorisé');
+        }
+
+        try {
+            const postDoc = await Post.create({
+                title,
+                summary,
+                content,
+                cover: newPath,
+                author: info.id,
+            });
+            res.json(postDoc);
+        } catch (e) {
+            console.log('erreur');
+            res.status(400).json(e);
+        }
     });
-    res.json(postDoc);
-    res.json({ files: req.file });
 });
