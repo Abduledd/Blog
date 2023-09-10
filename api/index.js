@@ -12,8 +12,6 @@ const Post = require('./models/Post');
 
 const app = express();
 
-
-
 const salt = bcrypt.genSaltSync(10);
 const secret = 'xnoqdnfodfiouibmqsgroqneofngq';
 
@@ -23,8 +21,6 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
-
-
 
 // const PORT = process.env.PORT || 5000;
 
