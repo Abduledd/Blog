@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-// const cors = require('cors');
+const cors = require('cors');
 const User = require('./models/User');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -12,36 +12,52 @@ const Post = require('./models/Post');
 
 const app = express();
 
+
+
 const salt = bcrypt.genSaltSync(10);
-const secret = 'xnoqdnfodfiouibmqsgroqneofngq'
+const secret = 'xnoqdnfodfiouibmqsgroqneofngq';
+
+
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
-
-// app.use(cors({
-//     origin: 'http://localhost:3000',
-// }));
 
 // const PORT = process.env.PORT || 5000;
 
-const PORT = 3000;
+const PORT = 4000;
+
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://blog:1GkeKSRMCzcQ1o5C@cluster0.utbkidw.mongodb.net/?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+mongoose.connection.on('connected', () => {
+    console.log('Connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('MongoDB connection error:', err);
+});
 
 
-async function startServer() {
-    try {
-        await mongoose.connect('mongodb+srv://blog:1GkeKSRMCzcQ1o5C@cluster0.utbkidw.mongodb.net/?retryWrites=true&w=majority');
-        console.log('Server connected to MongoDB')
-        app.listen(PORT, () => {
-            console.log(`Server running on port: ${PORT}`);
-        });
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+// async function startServer() {
+//     try {
+//         await mongoose.connect('mongodb+srv://blog:1GkeKSRMCzcQ1o5C@cluster0.utbkidw.mongodb.net/?retryWrites=true&w=majority');
+//         console.log('Server connected to MongoDB')
+//         app.listen(PORT, () => {
+//             console.log(`Server running on port: ${PORT}`);
+//         });
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// }
 
-startServer();
+// startServer();
 
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
@@ -86,11 +102,11 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/profile', (req, res) => {
-    // const [token] = req.cookies;
-    // jwt.verify(token, secret, {}, (err, info) => {
-    //     if (err) throw err;
-    //     res.json(info);
-    // });
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, (err, info) => {
+        if (err) throw err;
+        res.json(info);
+    });
 });
 
 
@@ -118,6 +134,7 @@ app.post('/post', uploadMiddleWare.single('file'), async (req, res) => {
         }
 
         try {
+
             const postDoc = await Post.create({
                 title,
                 summary,
@@ -131,4 +148,30 @@ app.post('/post', uploadMiddleWare.single('file'), async (req, res) => {
             res.status(400).json(e);
         }
     });
+});
+
+
+
+
+
+
+app.get('/post', async (req, res) => {
+    res.json(
+        await Post.find()
+            .populate('author', ['username'])
+            .sort({ createdAt: -1 })
+            .limit(20)
+    );
+})
+
+
+app.get('/post/:id', async (req, res) => {
+    const { id } = req.params;
+    const postDoc = await Post.findById(id).populate('author', ['username']);
+    res.json(postDoc);
+})
+
+
+app.listen(PORT, () => {
+    console.log(`Server running on port: ${PORT}`);
 });
