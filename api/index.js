@@ -24,7 +24,6 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 const PORT = process.env.PORT || 5000;
 
-
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://blog:1GkeKSRMCzcQ1o5C@cluster0.utbkidw.mongodb.net/?retryWrites=true&w=majority', {
     useNewUrlParser: true,
@@ -38,7 +37,6 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
     console.error('MongoDB connection error:', err);
 });
-
 
 // async function startServer() {
 //     try {
@@ -68,7 +66,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const userDoc = await User.findOne({ username });
@@ -94,7 +91,6 @@ app.post('/login', async (req, res) => {
         res.status(400).json('Mot de passe incorrect.');
     }
 });
-
 
 app.get('/profile', (req, res) => {
     const { token } = req.cookies;
