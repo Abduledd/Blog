@@ -25,34 +25,35 @@ export default function Header() {
   const username = userInfo?.username;
 
   return (
-    <header>
-      <Link to="/" className="logo">MyBlog</Link>
-      {/* <nav>
-        {username && (
-          <>
-            <Link to="/create">Create new post</Link>
-            <a onClick={logout}>Logout ({username})</a>
-          </>
-        )}
-        {!username && (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
-      </nav> */}
-      <nav>
-        {
-          (userInfo && userInfo.username) == null
-            ? (<>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </>) : (<>
-              <Link to="/create">Create new post</Link>
-              <a onClick={logout}>Logout ({username})</a>
-            </>)
-        }
-      </nav>
+    <header className="bg-gray-800 max-w-full">
+      <div className="ml-10 px-2 max-w-full sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <div className="">
+            <Link to="/" className="text-white text-2xl font-semibold">MyBlog</Link>
+          </div>
+          <nav className="md:flex space-x-4">
+            {userInfo && userInfo.username ? (
+              <>
+                <Link to="/create" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  Create new post
+                </Link>
+                <a onClick={logout} className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  Logout ({username})
+                </a>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  Login
+                </Link>
+                <Link to="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  Register
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      </div>
     </header>
   );
 }
