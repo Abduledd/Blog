@@ -38,19 +38,6 @@ mongoose.connection.on('error', (err) => {
     console.error('MongoDB connection error:', err);
 });
 
-// async function startServer() {
-//     try {
-//         await mongoose.connect('mongodb+srv://blog:1GkeKSRMCzcQ1o5C@cluster0.utbkidw.mongodb.net/?retryWrites=true&w=majority');
-//         console.log('Server connected to MongoDB')
-//         app.listen(PORT, () => {
-//             console.log(`Server running on port: ${PORT}`);
-//         });
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
-
-// startServer();
 
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
