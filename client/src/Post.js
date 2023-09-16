@@ -29,7 +29,7 @@ export default function Post({ _id, title, summary, cover, content, createdAt, a
     //     <p className="summary">{summary}</p>
     //   </div>
     // </div>
-    <Card className="w-full max-w-[48rem] flex-row my-8 mx-5 md:mx-auto shadow-md">
+    <Card className="w-full max-w-[48rem] flex-row my-24 mx-5 md:mx-auto drop-shadow-md ">
       <CardHeader
         shadow={false}
         floated={false}
