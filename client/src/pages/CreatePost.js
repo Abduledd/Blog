@@ -32,9 +32,9 @@ export default function CreatePost() {
   }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-6 py-8 mx-auto md:py-0">
-      <div class="heading text-center font-bold text-2xl m-5 pt-10 text-gray-400 ">New Post</div>
+      <div class="text-center font-bold text-2xl m-5 text-gray-400 ">New Post</div>
       <form onSubmit={createNewPost}
-        className="flex flex-col w-[97%] max-w-lg rounded-lg shadow bg-white p-3 mt-5" >
+        className="flex flex-col w-[97%] max-w-lg rounded-lg shadow bg-white p-3 mt-2" >
         <input type="title"
           className="bg-gray-100 border border-gray-300 p-2 mb-4 outline-none rounded"
           placeholder={'Title'}
@@ -45,32 +45,12 @@ export default function CreatePost() {
           placeholder={'Summary'}
           value={summary}
           onChange={ev => setSummary(ev.target.value)} />
-        <div className="relative">
-          <input
-            type="file"
-            onChange={ev => setFiles(ev.target.files)}
-            className="hidden"
-          />
-          <label htmlFor="fileInput" className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6 mr-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            Select File
-          </label>
-        </div>
+        <input
+          className="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          type="file"
+          onChange={ev => setFiles(ev.target.files)} />
         <Editor value={content} onChange={setContent} />
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create post</button>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Create post</button>
 
       </form>
 
