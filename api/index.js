@@ -81,11 +81,22 @@ app.post('/login', async (req, res) => {
 
 app.get('/profile', (req, res) => {
     const { token } = req.cookies;
+
+    // Check if token is undefined or null
+    if (!token) {
+        return res.status(400).json({ error: 'Token not provided' });
+    }
+
     jwt.verify(token, secret, {}, (err, info) => {
-        if (err) throw err;
+        if (err) {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
+
+        // Token verification successful, respond with info
         res.json(info);
     });
 });
+
 
 
 
