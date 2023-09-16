@@ -25,7 +25,7 @@ export default function Header() {
   const username = userInfo?.username;
 
   return (
-    <header className="bg-black max-w-full drop-shadow-lg fixed top-0 left-0 right-0 z-50 mb-10">
+    <header className="bg-black max-w-full drop-shadow-lg fixed top-0 left-0 right-0 z-50">
       <div className="ml-10 px-2 max-w-full sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="">

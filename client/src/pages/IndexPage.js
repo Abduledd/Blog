@@ -25,7 +25,7 @@ export default function IndexPage() {
 
   // </div>
   return (
-    <div>
+    <div className="pt-10">
       {posts.length > 0 && posts.map(post => (
         <Post {...post} />
       ))}
