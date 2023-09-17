@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../Editor";
 
+
 export default function EditPost() {
   const { id } = useParams();
   const [title, setTitle] = useState('');
@@ -46,19 +47,46 @@ export default function EditPost() {
   }
 
   return (
-    <form onSubmit={updatePost}>
-      <input type="title"
-        placeholder={'Title'}
-        value={title}
-        onChange={ev => setTitle(ev.target.value)} />
-      <input type="summary"
-        placeholder={'Summary'}
-        value={summary}
-        onChange={ev => setSummary(ev.target.value)} />
-      <input type="file"
-        onChange={ev => setFiles(ev.target.files)} />
-      <Editor onChange={setContent} value={content} />
-      <button style={{ marginTop: '5px' }}>Update post</button>
-    </form>
+    <div className="flex flex-col items-center justify-center min-h-screen px-6 py-8 mx-auto md:py-0">
+      <div class="text-center font-bold text-2xl m-5 text-gray-400 ">Edit Post</div>
+      <form onSubmit={updatePost}
+        className="flex flex-col w-[97%] max-w-lg rounded-lg shadow bg-white p-3 mt-2" >
+        <input type="title"
+          className="bg-gray-100 border border-gray-300 p-2 mb-4 outline-none rounded"
+          placeholder={'Title'}
+          value={title}
+          onChange={ev => setTitle(ev.target.value)} />
+        <input type="summary"
+          className="bg-gray-100 border border-gray-300 p-2 mb-4 outline-none rounded"
+          placeholder={'Summary'}
+          value={summary}
+          onChange={ev => setSummary(ev.target.value)} />
+        <input
+          className="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          type="file"
+          onChange={ev => setFiles(ev.target.files)} />
+        <Editor value={content} onChange={setContent} />
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Update post</button>
+
+      </form>
+
+
+    </div>
+
+
+    // <form onSubmit={updatePost}>
+    //   <input type="title"
+    //     placeholder={'Title'}
+    //     value={title}
+    //     onChange={ev => setTitle(ev.target.value)} />
+    //   <input type="summary"
+    //     placeholder={'Summary'}
+    //     value={summary}
+    //     onChange={ev => setSummary(ev.target.value)} />
+    //   <input type="file"
+    //     onChange={ev => setFiles(ev.target.files)} />
+    //   <Editor onChange={setContent} value={content} />
+    //   <button style={{ marginTop: '5px' }}>Update post</button>
+    // </form>
   );
 }
