@@ -61,7 +61,7 @@ export default function Post({ _id, title, summary, cover, content, createdAt, a
             {summary}
           </Typography>
 
-          <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
+
         </div>
 
         <div className="mt-auto">

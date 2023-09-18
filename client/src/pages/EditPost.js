@@ -12,7 +12,7 @@ export default function EditPost() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3000/post/' + id)
+    fetch('http://localhost:4000/post/' + id)
       .then(response => {
         response.json().then(postInfo => {
           setTitle(postInfo.title);
@@ -38,8 +38,10 @@ export default function EditPost() {
       credentials: 'include',
     });
     if (response.ok) {
+      console.log(response);
+
       setRedirect(true);
-    }
+    } else { console.log('No response'); }
   }
 
   if (redirect) {
